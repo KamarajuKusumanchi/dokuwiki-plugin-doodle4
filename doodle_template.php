@@ -49,8 +49,13 @@ if ($template['userlist'] == 'vertical'){
          <td class="rightalign"> 
            <?php
 		if (strcmp($template['printName'],'none')==0){
-                        echo $userData['editLinks']."anonymous";
-                }elseif (strcmp($template['printName'],'both')==0){
+			if (!empty($_SERVER['REMOTE_USER']) && 
+				(strcmp($_SERVER['REMOTE_USER'], $userData['username'])==0)){
+				echo $userData['editLinks'].$fullname.' ('.$userData['username'].')';
+			} else{
+				echo $userData['editLinks']."anonymous";
+			}
+		}elseif (strcmp($template['printName'],'both')==0){
 			echo $userData['editLinks'].$fullname.' ('.$userData['username'].')'; 
 		} elseif (strcmp($template['printName'],'fullname')==0){
 			 echo $userData['editLinks'].$fullname;

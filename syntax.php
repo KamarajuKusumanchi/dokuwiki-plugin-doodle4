@@ -605,7 +605,7 @@ class syntax_plugin_doodle4 extends DokuWiki_Syntax_Plugin
 		}elseif ($this->params['printName'] == 'username'){
 			$TR .= $_SERVER['REMOTE_USER'];
 		} elseif ($this->params['printName'] == 'none'){
-                        $TR .= "anonymous";
+			$TR .= $fullname.'&nbsp;('.$_SERVER['REMOTE_USER'].')'; 
 		}
           
 		
