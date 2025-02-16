@@ -49,7 +49,7 @@ if ($template['userlist'] == 'vertical'){
          <td class="rightalign"> 
            <?php
 		if (strcmp($template['printName'],'none')==0){
-                        echo $userData['editLinks']."anonyme";
+                        echo $userData['editLinks']."anonymous";
                 }elseif (strcmp($template['printName'],'both')==0){
 			echo $userData['editLinks'].$fullname.' ('.$userData['username'].')'; 
 		} elseif (strcmp($template['printName'],'fullname')==0){
@@ -149,7 +149,7 @@ foreach ($trArray as $tr){
 		}elseif ($template['printName'] == 'username'){
 			echo $userData['editLinks'].$userData['username']; 
 		} elseif ($template['printName'] == 'none'){
-                        echo "anonyme";
+                        echo "anonymous";
                 }
 		?>				  
                  
