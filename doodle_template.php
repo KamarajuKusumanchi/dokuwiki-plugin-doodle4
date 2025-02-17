@@ -48,21 +48,42 @@ if ($template['userlist'] == 'vertical'){
      <tr>
          <td class="rightalign"> 
            <?php
-		if (strcmp($template['printName'],'none')==0){
-			if (!empty($_SERVER['REMOTE_USER']) && 
-				(strcmp($_SERVER['REMOTE_USER'], $userData['username'])==0)){
-				echo $userData['editLinks'].$fullname.' ('.$userData['username'].')';
-			} else{
-				echo $userData['editLinks']."anonymous";
+		if ($template['ballotType'] == 'open') {
+			if ($template['printName'] == 'both'){
+				echo $userData['editLinks'].$fullname.' ('.$userData['username'].')'; 
+			} elseif ($template['printName'] == 'fullname'){
+				 echo $userData['editLinks'].$fullname;
+			} elseif ($template['printName'] == 'username'){
+				echo $userData['editLinks'].$userData['username']; 
+			} 
+		} elseif ($template['ballotType'] == 'private') {
+			if (!empty($_SERVER['REMOTE_USER'])) {
+				if ($template['printName'] == 'both'){
+					echo $userData['editLinks'].$fullname.' ('.$userData['username'].')'; 
+				} elseif ($template['printName'] == 'fullname'){
+					 echo $userData['editLinks'].$fullname;
+				} elseif ($template['printName'] == 'username'){
+					echo $userData['editLinks'].$userData['username']; 
+				} 
+			} else {
+				// echo $userData['editLinks']."anonymous";
+				echo $template['ballotType'];
 			}
-		}elseif (strcmp($template['printName'],'both')==0){
-			echo $userData['editLinks'].$fullname.' ('.$userData['username'].')'; 
-		} elseif (strcmp($template['printName'],'fullname')==0){
-			 echo $userData['editLinks'].$fullname;
-		}elseif (strcmp($template['printName'],'username')==0){
-			echo $userData['editLinks'].$userData['username']; 
-		} 
-
+		} elseif ($template['ballotType'] == 'secret') {
+			if (!empty($_SERVER['REMOTE_USER']) && 
+			    (strcmp($_SERVER['REMOTE_USER'], $userData['username'])==0)){
+				if ($template['printName'] == 'both'){
+					echo $userData['editLinks'].$fullname.' ('.$userData['username'].')'; 
+				} elseif ($template['printName'] == 'fullname'){
+					 echo $userData['editLinks'].$fullname;
+				} elseif ($template['printName'] == 'username'){
+					echo $userData['editLinks'].$userData['username']; 
+				} 
+			} else {
+				// echo $userData['editLinks']."anonymous";
+				echo $template['ballotType'];
+			}
+		}
 	?>
          </td>
          <?php for ($col = 0; $col < $c; $col++) {
@@ -147,15 +168,42 @@ foreach ($trArray as $tr){
 			 
 			 
                  <?php
-		if ($template['printName'] == 'both'){
-			echo $userData['editLinks'].$fullname.' ('.$userData['username'].')'; 
-		} elseif ($template['printName'] == 'fullname'){
-			 echo $userData['editLinks'].$fullname;
-		}elseif ($template['printName'] == 'username'){
-			echo $userData['editLinks'].$userData['username']; 
-		} elseif ($template['printName'] == 'none'){
-                        echo "anonymous";
-                }
+			if ($template['ballotType'] == 'open') {
+				if ($template['printName'] == 'both'){
+					echo $userData['editLinks'].$fullname.' ('.$userData['username'].')'; 
+				} elseif ($template['printName'] == 'fullname'){
+					 echo $userData['editLinks'].$fullname;
+				} elseif ($template['printName'] == 'username'){
+					echo $userData['editLinks'].$userData['username']; 
+				} 
+			} elseif ($template['ballotType'] == 'private') {
+				if (!empty($_SERVER['REMOTE_USER'])) {
+					if ($template['printName'] == 'both'){
+						echo $userData['editLinks'].$fullname.' ('.$userData['username'].')'; 
+					} elseif ($template['printName'] == 'fullname'){
+						 echo $userData['editLinks'].$fullname;
+					} elseif ($template['printName'] == 'username'){
+						echo $userData['editLinks'].$userData['username']; 
+					} 
+				} else {
+					// echo $userData['editLinks']."anonymous";
+					echo $template['ballotType'];
+				}
+			} elseif ($template['ballotType'] == 'secret') {
+				if (!empty($_SERVER['REMOTE_USER']) && 
+				    (strcmp($_SERVER['REMOTE_USER'], $userData['username'])==0)){
+					if ($template['printName'] == 'both'){
+						echo $userData['editLinks'].$fullname.' ('.$userData['username'].')'; 
+					} elseif ($template['printName'] == 'fullname'){
+						 echo $userData['editLinks'].$fullname;
+					} elseif ($template['printName'] == 'username'){
+						echo $userData['editLinks'].$userData['username']; 
+					} 
+				} else {
+					// echo $userData['editLinks']."anonymous";
+					echo $template['ballotType'];
+				}
+			}
 		?>				  
                  
 	     
