@@ -31,7 +31,7 @@ require_once(DOKU_PLUGIN.'syntax.php');
  *   showMode="all|own"
  *   showSum="true|false"
  *   userlist="vertical|horizontal"
- *   printUser="both|fullname|username|none"
+ *   printUser="both|fullname|username"
  *   closed="true|false" >
  *     * Option 1 
  *     * Option 2 **some wikimarkup** \\ is __allowed__!
@@ -196,7 +196,7 @@ class syntax_plugin_doodle4 extends DokuWiki_Syntax_Plugin
             } 
 	    else
 	    if (strcmp($name, "PRINTNAME") == 0) {
-		if ($value == 'fullname' || $value == 'username' || $value == 'both' || $value == 'none'){
+		if ($value == 'fullname' || $value == 'username' || $value == 'both'){
 			$params['printName'] = $value;
 		}
             } else
@@ -619,9 +619,8 @@ class syntax_plugin_doodle4 extends DokuWiki_Syntax_Plugin
 			 $TR .= $fullname;
 		}elseif ($this->params['printName'] == 'username'){
 			$TR .= $_SERVER['REMOTE_USER'];
-		} elseif ($this->params['printName'] == 'none'){
-			$TR .= $fullname.'&nbsp;('.$_SERVER['REMOTE_USER'].')'; 
-		}
+		} 
+		
           
 		
 		
