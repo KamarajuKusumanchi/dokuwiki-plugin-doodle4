@@ -36,6 +36,7 @@ require_once(DOKU_PLUGIN.'syntax.php');
  *     * Option 1 
  *     * Option 2 **some wikimarkup** \\ is __allowed__!
  *     * Option 3
+*    ballotType="open|private|secret"
  * </doodle>
  * </pre>
  *
@@ -77,6 +78,13 @@ require_once(DOKU_PLUGIN.'syntax.php');
  * username	- Username
  *
  * If closed=="true", then no one can vote anymore. The result will still be shown on the page.
+ *
+ * <h3>ballotType</h3>
+ * open    - the voter's details are visible to everyone
+ * private - the voter's details are visible only to the logged in users. If no
+ *           user is logged in, the voter's details will show up as anonymous.
+ * secret  - the voter's details are visible only to the person who voted. All
+ *           other entries will show up as anonymous.
  *
  * The doodle's data is saved in '<dokuwiki>/data/meta/title_of_vote.doodle'. The filename is the (masked) title. 
  * This has the advantage that you can move your doodle to another page, without loosing the data.
@@ -122,17 +130,18 @@ class syntax_plugin_doodle4 extends DokuWiki_Syntax_Plugin
         //----- default parameter settings
         $params = array(
             'title'          => 'Default title',
-            'auth'           => self::AUTH_NONE,
+            'auth'           => self::AUTH_USER,
             'adminUsers'     => '',
             'adminGroups'    => '',
 	    'showMode'	     => 'all',
 	    'showSum'	     => TRUE,
             'adminMail'      => null,
-	    'printName' => 'both',
+	    'printName'      => 'both',
             'voteType'       => 'default',
             'closed'         => FALSE,
 	    'fieldwidth'     => 'auto',
-	    'userlist'	     => 'vertical'
+	    'userlist'	     => 'vertical',
+            'ballotType'     => 'secret'
         );
 
         //----- parse parameteres into name="value" pairs  
@@ -214,6 +223,11 @@ class syntax_plugin_doodle4 extends DokuWiki_Syntax_Plugin
 	    if (strcmp($name, "FIELDWIDTH") == 0) {
 		if (preg_match("/^[0-9]+px$/",$value,$hit) == 1)
 		    $params['fieldwidth'] = $hit[0];
+	    } else
+	    if (strcmp($name, 'BALLOTTYPE') == 0) {
+		if ($value == 'open' || $value == 'private' || $value == 'secret'){
+			$params['ballotType'] = $value;
+		}
 	    }
         }
 
@@ -351,6 +365,7 @@ class syntax_plugin_doodle4 extends DokuWiki_Syntax_Plugin
 	$this->template['showSum'] = $this->params['showSum'];
 	$this->template['printName'] = $this->params['printName'];
         $this->template['userlist'] = $this->params['userlist'];
+	$this->template['ballotType'] = $this->params['ballotType'];
 	    
         for($col = 0; $col < count($this->choices); $col++) {
             $this->template['count'][$col] = 0;
